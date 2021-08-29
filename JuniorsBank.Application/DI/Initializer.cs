@@ -1,4 +1,8 @@
-﻿using JuniorsBank.Infrastructure.Persistence;
+﻿using JuniorsBank.Domain.Interfaces.Repositories;
+using JuniorsBank.Domain.Interfaces.Services;
+using JuniorsBank.Domain.Services;
+using JuniorsBank.Infrastructure.Persistence;
+using JuniorsBank.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -19,7 +23,14 @@ namespace JuniorsBank.Application.DI
             services.AddDbContext<JuniorsBankDbContext>(options => options.UseSqlServer(connection));
 
             // INFRASTRUCTURE
-            //services.AddScoped()
+            services.AddScoped(typeof(IPersonRepository), typeof(PersonRepository));
+            services.AddScoped(typeof(ICheckingAccountRepository), typeof(CheckingAccountRepository));
+            services.AddScoped(typeof(IFinancialTransactionRepository), typeof(FinancialTransactionRepository));
+
+            // SERVICES (DOMAIN)
+            services.AddScoped(typeof(IPersonService), typeof(PersonService));
+            services.AddScoped(typeof(ICheckingAccountService), typeof(CheckingAccountService));
+            services.AddScoped(typeof(IFinancialTransactionService), typeof(FinancialTransactionService));
         }
     }
 }

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Services\" />
     <Folder Include="DTOs\" />
   </ItemGroup>
 

@@ -31,7 +31,9 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
 
             builder
                 .HasMany(x => x.FinancialTransactions)
-                .WithOne(x => x.CheckingAccount);
+                .WithOne(x => x.CheckingAccount)
+                .HasForeignKey(x => x.CheckingAccountId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

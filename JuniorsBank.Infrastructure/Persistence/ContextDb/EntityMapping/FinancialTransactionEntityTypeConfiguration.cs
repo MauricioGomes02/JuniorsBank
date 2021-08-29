@@ -37,16 +37,6 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
                 .Property(x => x.TransactionType)
                 .IsRequired()
                 .HasColumnName("TransactionType");
-
-            builder
-                .HasOne(x => x.CheckingAccount)
-                .WithMany(x => x.FinancialTransactions)
-                .HasForeignKey(x => x.CheckingAccountId);
-                // Evitar violação de restrição referencial
-                // https://docs.microsoft.com/pt-br/ef/core/saving/cascade-delete
-                // Esse tipo de relação (necessária) já possui a configuração para
-                // exclusão em cascata, não sendo necessário usar a sentença abaixo.
-                // .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -34,6 +34,11 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
                 .Property(x => x.Email)
                 .IsRequired()
                 .HasColumnName("Email");
+
+            builder
+                .HasOne(x => x.CheckingAccount)
+                .WithOne(x => x.Person)
+                .HasForeignKey<CheckingAccount>(x => x.PersonId);
         }
     }
 }
