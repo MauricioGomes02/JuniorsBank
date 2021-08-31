@@ -1,4 +1,5 @@
-﻿using JuniorsBank.Domain.Entities;
+﻿using JuniorsBank.Application.ViewModels;
+using JuniorsBank.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace JuniorsBank.API.Services
 {
     public static class TokenService
     {
-        public static string GenerateToken(Person person)
+        public static string GenerateToken(PersonViewModel person)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);

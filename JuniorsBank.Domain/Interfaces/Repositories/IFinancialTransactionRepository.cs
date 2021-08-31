@@ -7,6 +7,5 @@ namespace JuniorsBank.Domain.Interfaces.Repositories
 {
     public interface IFinancialTransactionRepository : IBaseRepository<FinancialTransaction>
     {
-
     }
 }

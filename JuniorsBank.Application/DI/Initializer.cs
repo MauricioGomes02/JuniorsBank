@@ -1,4 +1,6 @@
-﻿using JuniorsBank.Domain.Interfaces.Repositories;
+﻿using JuniorsBank.Application.Interfaces;
+using JuniorsBank.Application.Services;
+using JuniorsBank.Domain.Interfaces.Repositories;
 using JuniorsBank.Domain.Interfaces.Services;
 using JuniorsBank.Domain.Services;
 using JuniorsBank.Infrastructure.Persistence;
@@ -20,7 +22,8 @@ namespace JuniorsBank.Application.DI
         /// <param name="connection"></param>
         public static void Configure(IServiceCollection services, string connection)
         {
-            services.AddDbContext<JuniorsBankDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<JuniorsBankDbContext>(options => options.UseInMemoryDatabase("JuniorsBank"));
+            //services.AddDbContext<JuniorsBankDbContext>(options => options.UseSqlServer(connection));
 
             // INFRASTRUCTURE
             services.AddScoped(typeof(IPersonRepository), typeof(PersonRepository));
@@ -31,6 +34,10 @@ namespace JuniorsBank.Application.DI
             services.AddScoped(typeof(IPersonService), typeof(PersonService));
             services.AddScoped(typeof(ICheckingAccountService), typeof(CheckingAccountService));
             services.AddScoped(typeof(IFinancialTransactionService), typeof(FinancialTransactionService));
+
+            // SERVICES (APPLICATION)
+            services.AddScoped(typeof(IPersonApplicationService), typeof(PersonApplicationService));
+            services.AddScoped(typeof(ICheckingAccountApplicationService), typeof(CheckingAccountApplicationService));
         }
     }
 }

@@ -20,6 +20,7 @@ namespace JuniorsBank.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CheckingAccountEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new FinancialTransactionEntityTypeConfiguration());
         }
     }

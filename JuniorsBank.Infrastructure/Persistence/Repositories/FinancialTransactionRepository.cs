@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JuniorsBank.Infrastructure.Persistence.Repositories
 {
-    public class FinancialTransactionRepository : BaseRepository<FinancialTransaction>
+    public class FinancialTransactionRepository : BaseRepository<FinancialTransaction>, IFinancialTransactionRepository
     {
         private readonly JuniorsBankDbContext _context;
         public FinancialTransactionRepository(JuniorsBankDbContext context)

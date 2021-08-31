@@ -29,18 +29,14 @@ namespace JuniorsBank.Domain.Services
         {
             var person = _checkingAccountRepository.GetByPerson(personId);
             if (person != null)
-            {
-                _checkingAccountRepository.Add(new CheckingAccount()
-                {
-                    CreationDate = DateTime.Now,
-                    Balance = 0,
-                    PersonId = personId
-                });
-            }
-            else
-            {
                 throw new InvalidOperationException("O usuário já possui uma Conta Corrente!");
-            }
+
+            _checkingAccountRepository.Add(new CheckingAccount()
+            {
+                CreationDate = DateTime.Now,
+                Balance = 0,
+                PersonId = personId
+            });
         }
 
         public CheckingAccount GetByPerson(long personId)
@@ -79,10 +75,10 @@ namespace JuniorsBank.Domain.Services
                 throw new InvalidOperationException("A Conta Corrente solicitada não foi encontrada!");
 
             if (value <= 0)
-                throw new InvalidOperationException("O Valor a ser pago deve ser maior que zero!");
+                throw new ArgumentException("O Valor a ser pago deve ser maior que zero!");
 
             if (checkingAccount.Balance < value)
-                throw new InvalidOperationException("O Saldo da Conta Corrente deve ser maior ou igual ao valor a ser pago!");
+                throw new ArgumentException("O Saldo da Conta Corrente deve ser maior ou igual ao valor a ser pago!");
 
             decimal previousValue = checkingAccount.Balance;
             checkingAccount.Balance -= value;
@@ -103,10 +99,10 @@ namespace JuniorsBank.Domain.Services
                 throw new InvalidOperationException("A Conta Corrente solicitada não foi encontrada!");
 
             if (value <= 0)
-                throw new InvalidOperationException("O Valor a ser sacado deve ser maior que zero!");
+                throw new ArgumentException("O Valor a ser sacado deve ser maior que zero!");
 
             if (checkingAccount.Balance < value)
-                throw new InvalidOperationException("O Saldo da Conta Corrente deve ser maior ou igual ao valor a ser sacado!");
+                throw new ArgumentException("O Saldo da Conta Corrente deve ser maior ou igual ao valor a ser sacado!");
 
             decimal previousValue = checkingAccount.Balance;
             checkingAccount.Balance -= value;

@@ -12,8 +12,8 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder
-                .ToTable(typeof(Person).Name);
+            //builder
+            //    .ToTable(typeof(Person).Name);
 
             builder
                 .HasKey(x => x.Id);
@@ -34,6 +34,11 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
                 .Property(x => x.Email)
                 .IsRequired()
                 .HasColumnName("Email");
+
+            builder
+                .Property(x => x.Password)
+                .IsRequired()
+                .HasColumnName("Password");
 
             builder
                 .HasOne(x => x.CheckingAccount)

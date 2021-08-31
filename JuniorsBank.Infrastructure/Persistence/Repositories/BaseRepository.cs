@@ -18,6 +18,7 @@ namespace JuniorsBank.Infrastructure.Persistence.Repositories
         {
             _context.Set<TEntity>()
                 .Add(entity);
+            _context.SaveChanges();
         }        
 
         public IEnumerable<TEntity> GetAll()
@@ -36,17 +37,19 @@ namespace JuniorsBank.Infrastructure.Persistence.Repositories
         {
             _context.Set<TEntity>()
                 .Remove(entity);
+            _context.SaveChanges();
         }
 
         public void Update(TEntity entity)
         {
             _context.Set<TEntity>()
                 .Update(entity);
+            _context.SaveChanges();
         }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _context.Dispose();
+        //}
     }
 }

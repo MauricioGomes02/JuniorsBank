@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JuniorsBank.Domain.Interfaces.Repositories
 {
-    public interface IBaseRepository<TEntity> : IDisposable where TEntity : class
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
         TEntity GetById(long id);
         IEnumerable<TEntity> GetAll();

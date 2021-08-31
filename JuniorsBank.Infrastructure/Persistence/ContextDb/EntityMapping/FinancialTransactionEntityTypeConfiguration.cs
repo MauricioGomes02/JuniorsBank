@@ -11,8 +11,8 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
     {
         public void Configure(EntityTypeBuilder<FinancialTransaction> builder)
         {
-            builder
-                .ToTable(typeof(Person).Name);
+            //builder
+            //    .ToTable(typeof(Person).Name);
 
             builder
                 .HasKey(x => x.Id);
