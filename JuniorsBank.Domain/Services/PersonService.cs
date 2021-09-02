@@ -20,7 +20,7 @@ namespace JuniorsBank.Domain.Services
             _checkingAccountService = checkingAccountService;
         }
 
-        public void Add(Person person)
+        public void Add(Person person, string password)
         {
             if (string.IsNullOrEmpty(person.FirstName))
                 throw new ArgumentException("O Nome deve ser informado!");
@@ -28,6 +28,8 @@ namespace JuniorsBank.Domain.Services
                 throw new ArgumentException("O Sobrenome deve ser informado!");
             if (string.IsNullOrEmpty(person.Email))
                 throw new ArgumentException("O E-mail deve ser informado!");
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException("A Senha deve ser informada!");
 
             if (_personRepository.Exists(person.Email))
                 throw new InvalidOperationException($"O E-mail '{person.Email}' já foi cadastrado na plataforma!");
@@ -37,10 +39,17 @@ namespace JuniorsBank.Domain.Services
             if (people.Count() > 0)
             {
                 var peopleOrderned = people.OrderBy(x => x.Id);
-                personId = peopleOrderned.Last().Id++;
+                personId = peopleOrderned.Last().Id + 1;
             }
 
             person.Id = personId;
+
+            byte[] passwordHash, passwordSalt;
+
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            person.PasswordHash = passwordHash;
+            person.PasswordSalt = passwordSalt;
 
             _personRepository.Add(person);
             _checkingAccountService.Add(person.Id);
@@ -58,10 +67,41 @@ namespace JuniorsBank.Domain.Services
             if (person == null)
                 throw new InvalidOperationException("Não foi encontrado nenhum usuário com o Email informado!");
 
-            if (person.Password != password)
+            if (!VerifyPasswordHash(password, person.PasswordHash, person.PasswordSalt))
                 throw new InvalidOperationException("Senha incorreta!");
 
             return person;
+        }
+
+        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("A senha não pode ter espaços em branco.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("A senha não pode ter espaços em branco.", "password");
+            if (storedHash.Length != 64) throw new ArgumentException("Tamanho inválido para o hash da senha (esperado 64 bytes).", "passwordHash");
+            if (storedSalt.Length != 128) throw new ArgumentException("Tamanho inválido para o salt da senha (esperado 128 bytes).", "passwordHash");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHash[i]) return false;
+                }
+            }
+
+            return true;
         }
     }
 }

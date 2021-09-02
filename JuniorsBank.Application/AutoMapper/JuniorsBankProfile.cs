@@ -14,6 +14,11 @@ namespace JuniorsBank.Application.AutoMapper
         {
             CreateMap<PersonInputModel, Person>();
             CreateMap<Person, PersonViewModel>();
+            CreateMap<CheckingAccountInputModel, CheckingAccount>();
+            CreateMap<CheckingAccount, CheckingAccountViewModel>()
+                .ForMember(d => d.Name, m => m.MapFrom(o => o.Person.FirstName + ' ' + o.Person.LastName))
+                .ForMember(d => d.FinancialTransactions, m => m.MapFrom(o => o.FinancialTransactions));
+            CreateMap<FinancialTransaction, FinancialTransactionViewModel>();
         }
     }
 }

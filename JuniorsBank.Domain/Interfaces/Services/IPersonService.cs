@@ -7,7 +7,7 @@ namespace JuniorsBank.Domain.Interfaces.Services
 {
     public interface IPersonService : IBaseService<Person>
     {
-        public void Add(Person person);
+        public void Add(Person person, string password);
         public Person Login(string email, string password);
     }
 }

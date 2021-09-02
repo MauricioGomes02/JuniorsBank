@@ -3,6 +3,7 @@ using JuniorsBank.Domain.Interfaces.Repositories;
 using JuniorsBank.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace JuniorsBank.Domain.Services
@@ -31,8 +32,17 @@ namespace JuniorsBank.Domain.Services
             if (person != null)
                 throw new InvalidOperationException("O usuário já possui uma Conta Corrente!");
 
+            var checkingAccounts = _checkingAccountRepository.GetAll();
+            long checkingAccountId = 1;
+            if (checkingAccounts.Count() > 0)
+            {
+                var peopleOrderned = checkingAccounts.OrderBy(x => x.Id);
+                checkingAccountId = peopleOrderned.Last().Id + 1;
+            }
+
             _checkingAccountRepository.Add(new CheckingAccount()
             {
+                Id = checkingAccountId,
                 CreationDate = DateTime.Now,
                 Balance = 0,
                 PersonId = personId
@@ -63,6 +73,7 @@ namespace JuniorsBank.Domain.Services
             {
                 MovimentValue = value,
                 PreviousValue = previousValue,
+                CurrentValue = previousValue + value,
                 TransactionType = Enums.TransactionTypeEnum.Deposit,
                 CheckingAccountId = checkingAccountId
             });
@@ -87,6 +98,7 @@ namespace JuniorsBank.Domain.Services
             {
                 MovimentValue = value,
                 PreviousValue = previousValue,
+                CurrentValue = previousValue - value,
                 TransactionType = Enums.TransactionTypeEnum.Payment,
                 CheckingAccountId = checkingAccountId
             });
@@ -111,6 +123,7 @@ namespace JuniorsBank.Domain.Services
             {
                 MovimentValue = value,
                 PreviousValue = previousValue,
+                CurrentValue = previousValue - value,
                 TransactionType = Enums.TransactionTypeEnum.Withdrawal,
                 CheckingAccountId = checkingAccountId
             });

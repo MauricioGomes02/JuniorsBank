@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="card text-center" style="margin-top: 20px;">
+    <div class="card-header" *ngIf="data">
+      Bem-vindo, {{ data.name }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title" *ngIf="data">Saldo Atual: R$ {{ formatBalance(data.balance) }}</h5>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Depositar
+        </div>
+        <div class="card-body">
+          <h5 class="card-text">Informe o valor a depositar...</h5>
+          <div class="input-group">
+            <input type="number" class="form-control" placeholder="Valor a depositar" [(ngModel)]="depositObj.value">
+            <button class="btn btn-primary" [disabled]="!depositObj.value" (click)="operation(depositObj)"
+                    type="button">Depositar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Sacar
+        </div>
+        <div class="card-body">
+          <h5 class="card-text">Informe o valor a sacar...</h5>
+          <div class="input-group">
+            <input type="number" class="form-control" placeholder="Valor a sacar" [(ngModel)]="withdrawalObj.value">
+            <button class="btn btn-primary" [disabled]="!withdrawalObj.value" (click)="operation(withdrawalObj)"
+                    type="button">Sacar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card text-center">
+        <div class="card-header">
+          Pagar
+        </div>
+        <div class="card-body">
+          <h5 class="card-text">Informe o valor a pagar...</h5>
+          <div class="input-group">
+            <input type="number" class="form-control" placeholder="Valor a pagar" [(ngModel)]="paymentObj.value">
+            <button class="btn btn-primary" [disabled]="!paymentObj.value" (click)="operation(paymentObj)"
+                    type="button">Pagar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table caption-top" *ngIf="data && data.financialTransactions" style="margin-top:20px;">
+    <caption>Histórico Movimentos</caption>
+    <thead>
+    <tr>
+      <th scope="col">Tipo Movimentação</th>
+      <th scope="col">Valor Movimentação</th>
+      <th scope="col">Valor Anterior</th>
+      <th scope="col">Valor Atual</th>
+      <th scope="col">Data Movimentação</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let financialTransaction of data.financialTransactions">
+      <th scope="row">{{getTypeOfTransaction(financialTransaction.transactionType)}}</th>
+      <td>{{financialTransaction.movimentValue}}</td>
+      <td>{{financialTransaction.previousValue}}</td>
+      <td>{{financialTransaction.currentValue}}</td>
+      <td>{{financialTransaction.movementDate | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center;">
+    <button type="button" class="btn btn-link" (click)="logout()">Logout</button>
+  </div>
+</div>

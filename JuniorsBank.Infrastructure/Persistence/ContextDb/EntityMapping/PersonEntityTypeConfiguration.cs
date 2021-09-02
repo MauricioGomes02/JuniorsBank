@@ -36,9 +36,14 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
                 .HasColumnName("Email");
 
             builder
-                .Property(x => x.Password)
+                .Property(x => x.PasswordHash)
                 .IsRequired()
-                .HasColumnName("Password");
+                .HasColumnName("PasswordHash");
+
+            builder
+                .Property(x => x.PasswordSalt)
+                .IsRequired()
+                .HasColumnName("PasswordSalt");
 
             builder
                 .HasOne(x => x.CheckingAccount)

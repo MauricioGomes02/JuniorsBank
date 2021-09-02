@@ -1,10 +1,10 @@
 using JuniorsBank.Application.AutoMapper;
 using JuniorsBank.Application.DI;
+using JuniorsBank.Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -66,14 +66,14 @@ namespace JuniorsBank.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
+            //app.UseHttpsRedirection();
+
+            app.UseRouting();            
 
             app.UseAuthentication();
             app.UseAuthorization();            
@@ -81,7 +81,13 @@ namespace JuniorsBank.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });            
+            });
+            //AddDataForTest();
         }
+
+        //private void AddDataForTest()
+        //{
+        //    TestDataGenerator.GenereateData();
+        //}
     }
 }

@@ -28,7 +28,7 @@ namespace JuniorsBank.Application.Services
         public void Add(PersonInputModel personInputModel)
         {
             var person = _mapper.Map<Person>(personInputModel);
-            _personService.Add(person);
+            _personService.Add(person, personInputModel.Password);
         }
     }
 }

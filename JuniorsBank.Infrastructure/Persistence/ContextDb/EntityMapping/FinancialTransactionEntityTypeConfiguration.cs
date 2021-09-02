@@ -34,6 +34,10 @@ namespace JuniorsBank.Infrastructure.Persistence.ContextDb.EntityMapping
                 .HasColumnName("PreviousValue");
 
             builder
+                .Property(x => x.CurrentValue)
+                .HasColumnName("CurrentValue");
+
+            builder
                 .Property(x => x.TransactionType)
                 .IsRequired()
                 .HasColumnName("TransactionType");

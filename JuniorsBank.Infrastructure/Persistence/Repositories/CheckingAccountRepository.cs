@@ -21,6 +21,7 @@ namespace JuniorsBank.Infrastructure.Persistence.Repositories
             return _context.CheckingAccounts
                 // LEFT JOIN
                 .Include(x => x.FinancialTransactions)
+                .Include(x => x.Person)
                 .FirstOrDefault(x => x.PersonId == id);
         }
     }
