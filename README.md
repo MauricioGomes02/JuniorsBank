@@ -1,6 +1,6 @@
-#Junior's Bank
+# Junior's Bank
 
-##Sobre
+## Sobre
 Trata-se de um sistema simples com o intuito de 
 replicar a funcionalidade de uma Conta Corrente.
 
@@ -57,7 +57,7 @@ do modelo DDD e da arquitetura limpa.
 - Entity Framework Core 3.1
 - AutoMapper
 
-##Referências Utilizadas
+## Referências Utilizadas
 - [Tipos Genéricos EF](http://www.linhadecodigo.com.br/artigo/3347/trabalhando-com-repositorio-generico-no-entity-framework.aspx)
 - [Autentcação com JWT Bearer](https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt)
 - [Um pouco sobre o conceito de DDD](https://docs.microsoft.com/pt-br/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice)
